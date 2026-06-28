@@ -61,8 +61,8 @@ export default function InterviewPage() {
   const [retaking, setRetaking] = useState(false)
   const [totalQuestions, setTotalQuestions] = useState(0)
   const [questionIndex, setQuestionIndex] = useState(1)
-  const [roundsList, setRoundsList] = useState<RoundInfo[]>(DEFAULT_ROUNDS)
-  const [currentRoundIndex, setCurrentRoundIndex] = useState(0)
+  const [, setRoundsList] = useState<RoundInfo[]>(DEFAULT_ROUNDS)
+  const [, setCurrentRoundIndex] = useState(0)
   const [currentRoundLabel, setCurrentRoundLabel] = useState('HR Round')
   const [voiceName, setVoiceName] = useState('Bella')
   const [interviewerTitle, setInterviewerTitle] = useState('HR Partner')
@@ -500,7 +500,7 @@ export default function InterviewPage() {
       </div>
 
       {/* ── Round context (read-only overview) ── */}
-      {phase !== 'preflight' && phase !== 'connecting' && (
+      {phase !== 'connecting' && (
         <div className="px-6 py-2 border-b border-line bg-surface/30 shrink-0">
           <p className="text-center text-fog text-[10px]">
             {currentRoundLabel} · {voiceName} · Take this round at your own pace — return to AI
@@ -552,13 +552,13 @@ export default function InterviewPage() {
               {phase === 'speaking' && 'AI is speaking…'}
               {phase === 'complete' && (seriesComplete ? 'All rounds complete' : `${currentRoundLabel} complete`)}
             </p>
-            {!roundComplete && phase !== 'complete' && phase !== 'connecting' && phase !== 'preflight' && totalQuestions > 0 && (
+            {!roundComplete && phase !== 'complete' && phase !== 'connecting' && totalQuestions > 0 && (
               <p className="text-fog text-xs mt-1">
                 Question {Math.min(questionIndex, totalQuestions)} of {totalQuestions}
                 {candidateAnswers >= totalQuestions ? ' — all questions complete' : ''}
               </p>
             )}
-            {phase !== 'complete' && phase !== 'connecting' && phase !== 'preflight' && totalQuestions === 0 && (
+            {phase !== 'complete' && phase !== 'connecting' && totalQuestions === 0 && (
               <p className="text-fog text-xs mt-1">Loading tailored questions…</p>
             )}
             {micError && <p className="text-red-400 text-xs mt-1">{micError}</p>}

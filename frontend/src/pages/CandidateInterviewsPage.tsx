@@ -4,7 +4,6 @@ import {
   Video,
   Zap,
   CheckCircle2,
-  Clock,
   RotateCcw,
   Lock,
   ArrowRight,

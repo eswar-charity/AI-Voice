@@ -1,9 +1,5 @@
 import { useRef, useState, useCallback } from 'react'
 
-interface SpeechRecognitionEvent extends Event {
-  results: SpeechRecognitionResultList
-}
-
 function getSpeechRecognitionCtor():
   | (new () => SpeechRecognition)
   | null {
