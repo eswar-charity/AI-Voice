@@ -1,6 +1,8 @@
+import json
+
 from pydantic import field_validator
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Union
 
 MIN_JWT_EXPIRE_DAYS = 7
 
@@ -20,6 +22,21 @@ class Settings(BaseSettings):
 
     OPENAI_API_KEY: str = ""
     ELEVENLABS_API_KEY: str = ""
+
+    @field_validator("ALLOWED_ORIGINS", mode="before")
+    @classmethod
+    def _parse_allowed_origins(cls, value: Union[str, List[str]]) -> List[str]:
+        if isinstance(value, list):
+            return value
+        raw = value.strip()
+        if raw.startswith("["):
+            try:
+                parsed = json.loads(raw)
+                if isinstance(parsed, list):
+                    return [str(origin).strip() for origin in parsed if str(origin).strip()]
+            except json.JSONDecodeError:
+                pass
+        return [origin.strip() for origin in raw.split(",") if origin.strip()]
 
     @field_validator("JWT_EXPIRE_DAYS")
     @classmethod
